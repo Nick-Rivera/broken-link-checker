@@ -15,7 +15,7 @@ Features:
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `>= 0.10` is required; `< 4.0` will need `Promise` and `Object.assign` polyfills.
+[Node.js](http://nodejs.org/) `>= 10.12.0` is required.
 
 There're two ways to use it:
 
