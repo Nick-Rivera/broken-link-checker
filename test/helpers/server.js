@@ -1,20 +1,20 @@
 "use strict";
-var fixture = require("./fixture");
+const fixture = require("./fixture");
 
-var http = require("http");
-var st   = require("st");
+const http = require("http");
+const st   = require("st");
 
-var host        = "127.0.0.1";
-var httpServers = {};
-var serveFile   = st({index: "index.html", path: fixture.path()});
+const host        = "127.0.0.1";
+const httpServers = {};
+const serveFile   = st({index: "index.html", path: fixture.path()});
 
 
 function getAvailablePort()
 {
     return new Promise(function (resolve, reject)
     {
-        var port;
-        var server = http.createServer();
+        let port;
+        const server = http.createServer();
 
         // OS will return availabe port by point to port 0
         server.listen(0, host, function ()
@@ -44,8 +44,8 @@ function startHttpServer(suitePorts)
 {
     return new Promise(function (resolve, reject)
     {
-        var port;
-        var server = http.createServer(function (request, response)
+        let port;
+        const server = http.createServer(function (request, response)
         {
             startHttpServer_callback(request, response, port, suitePorts);
         });
@@ -111,7 +111,7 @@ function startHttpServer_callback(request, response, port, suitePorts)
                 return;
             }
 
-            for (var i = 1; i < suitePorts.length; i++)
+            for (let i = 1; i < suitePorts.length; i++)
             {
                 if (suitePorts[i] !== port)
                 {
@@ -149,7 +149,7 @@ function startHttpServers(numServers)
 {
     return new Promise(function (resolve, reject)
     {
-        var result = {
+        const result = {
             ports: [], absoluteUrls: [], schemeRelativeUrls: []
         };
 
@@ -218,7 +218,7 @@ function stopHttpServers(ports)
 
         var count = 0;
 
-        for (var i = 0; i < ports.length; i++)
+        for (let i = 0; i < ports.length; i++)
         {
             stopHttpServer(ports[i]).then(stopped);
         }
@@ -231,7 +231,7 @@ function stopHttpServers(ports)
 
 function startConnection()
 {
-    var absoluteUrls, ports, schemeRelativeUrls;
+    let absoluteUrls, ports, schemeRelativeUrls;
 
     return startHttpServers(1).then(function (data)
     {
@@ -258,7 +258,7 @@ function startConnection()
 
 function startConnections()
 {
-    var absoluteUrls, ports, schemeRelativeUrls;
+    let absoluteUrls, ports, schemeRelativeUrls;
 
     return startHttpServers(2).then(function (data)
     {

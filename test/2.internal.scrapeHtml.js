@@ -1,19 +1,16 @@
 "use strict";
-var parseHtml  = require("../lib/internal/parseHtml");
-var scrapeHtml = require("../lib/internal/scrapeHtml");
+const parseHtml  = require("../lib/internal/parseHtml");
+const scrapeHtml = require("../lib/internal/scrapeHtml");
 
-var helpers  = require("./helpers");
-var tagTests = require("./helpers/json/scrapeHtml.json");
+const helpers  = require("./helpers");
+const tagTests = require("./helpers/json/scrapeHtml.json");
 
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
 
 function wrapper(input, robots)
 {
-    return parseHtml(input).then(function (document)
-    {
-        return scrapeHtml(document, robots);
-    });
+    return parseHtml(input).then(document => scrapeHtml(document, robots));
 }
 
 
@@ -39,11 +36,11 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
     describe("link tags & attributes", function ()
     {
-        for (var test in tagTests)
+        for (let test in tagTests)
         {
-            var code       = "";
-            var data       = tagTests[test];
-            var skipOrOnly = data.skipOrOnly == null ? "" : "." + data.skipOrOnly;
+            let code         = "";
+            const data       = tagTests[test];
+            const skipOrOnly = data.skipOrOnly == null ? "" : "." + data.skipOrOnly;
 
             code += 'it' + skipOrOnly + '("supports ' + helpers.addSlashes(test) + '", function()\n';
             code += '{\n';
@@ -68,11 +65,10 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
                 expect(links).to.be.empty;
 
                 return wrapper('<meta content="5; url=fake.html"/>');
-            })
-                                                                                   .then(function (links)
-                                                                                   {
-                                                                                       expect(links).to.be.empty;
-                                                                                   });
+            }).then(function (links)
+            {
+                expect(links).to.be.empty;
+            });
         });
 
 
@@ -160,7 +156,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports nonconsecutive link elements", function ()
         {
-            var html = '<a href="fake1.html">link1</a>';
+            let html = '<a href="fake1.html">link1</a>';
             html += 'content <span>content</span> content';
             html += '<a href="fake2.html">link2</a>';
 
@@ -244,7 +240,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports detailed selectors and omit nth-child from html and body", function ()
         {
-            var html = '<html><head><title>title</title></head><body>';
+            let html = '<html><head><title>title</title></head><body>';
             html += '<div><a href="fake1.html">link1</a>';
             html += '<div><a href="fake2.html">link2</a></div>';
             html += '<div><a href="fake3.html">link3</a></div>';
@@ -290,7 +286,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports link attribute source code locations", function ()
         {
-            var html = '\n\t<a href="fake.html">link</a>';
+            const html = '\n\t<a href="fake.html">link</a>';
 
             return wrapper(html).then(function (links)
             {
@@ -298,15 +294,15 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
                 expect(links[0]).to.be.like({
                     html: {
                         location: {
-                            line: 2, col: 5, startOffset: 5, endOffset: 21
+                            startLine: 2, startCol: 5, startOffset: 5, endOffset: 21
                         }
                     }
                 });
 
-                var location = links[0].html.location;
-                var line     = location.line - 1;
-                var start    = (location.startOffset - 1) + (location.col - 1);
-                var end      = location.endOffset - 1;
+                const location = links[0].html.location;
+                const line     = location.startLine - 1;
+                const start    = (location.startOffset - 1) + (location.startCol - 1);
+                const end      = location.endOffset - 1;
 
                 expect(html.split("\n")[line].substring(start, end)).to.equal('="fake.html"');
             });
@@ -327,7 +323,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports irregular uses of <base/>", function ()
         {
-            var html = '<base href="/correct/"/>';
+            let html = '<base href="/correct/"/>';
             html += '<a href="fake.html">link</a>';
 
             return wrapper(html).then(function (links)
@@ -342,7 +338,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("ignores multiple uses of <base/>", function ()
         {
-            var html = '<base href="/first/"/>';
+            let html = '<base href="/first/"/>';
             html += '<head><base href="/ignored1/"/><base href="/ignored2/"/></head>';
             html += '<head><base href="/ignored3/"/></head>';
             html += '<base href="/ignored4/"/>';
@@ -360,7 +356,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports invalid html structure", function ()
         {
-            var html = '<html><head><title>title</title></head><body>';
+            let html = '<html><head><title>title</title></head><body>';
             html += '<table>';
             html += '<p><div><a href="fake1.html">link<b>1</div></a></b>';
             html += '<tr><td>content</td></tr></table>';
@@ -387,7 +383,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function ()
 
         it("supports invalid html structure (#2)", function ()
         {
-            var html = '<html><head><title>title</title></head><body>';
+            let html = '<html><head><title>title</title></head><body>';
             html += '<a href="fake.html">1<p>2</a>';
             html += '</body></html>';
 

@@ -1,9 +1,9 @@
 "use strict";
-var helpers = require("./helpers");
+const helpers = require("./helpers");
 
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
-var conn;
+let conn;
 
 
 describe("CLI", function ()

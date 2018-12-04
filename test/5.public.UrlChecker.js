@@ -1,11 +1,11 @@
 "use strict";
-var UrlChecker = require("../lib/public/UrlChecker");
+const UrlChecker = require("../lib/public/UrlChecker");
 
-var helpers = require("./helpers");
+const helpers = require("./helpers");
 
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
-var conn;
+let conn;
 
 
 describe("PUBLIC -- UrlChecker", function ()
@@ -31,7 +31,7 @@ describe("PUBLIC -- UrlChecker", function ()
         {
             it("accepts a valid url", function ()
             {
-                var instance = new UrlChecker(helpers.options());
+                const instance = new UrlChecker(helpers.options());
 
                 expect(instance.enqueue(conn.absoluteUrl)).to.not.be.an.instanceOf(Error);
                 expect(instance.enqueue("/normal/no-links.html", conn.absoluteUrl)).to.not.be.an.instanceOf(Error);
@@ -40,7 +40,7 @@ describe("PUBLIC -- UrlChecker", function ()
 
             it("rejects an invalid url", function ()
             {
-                var id = new UrlChecker(helpers.options()).enqueue("/path/");
+                const id = new UrlChecker(helpers.options()).enqueue("/path/");
 
                 expect(id).to.be.an.instanceOf(Error);
             });
@@ -83,7 +83,7 @@ describe("PUBLIC -- UrlChecker", function ()
         {
             it("works", function (done)
             {
-                var instance = new UrlChecker(helpers.options(), {
+                const instance = new UrlChecker(helpers.options(), {
                     end: function ()
                     {
                         expect(instance.numActiveLinks()).to.equal(0);
@@ -103,9 +103,9 @@ describe("PUBLIC -- UrlChecker", function ()
         {
             it("works", function (done)
             {
-                var resumed = false;
+                let resumed = false;
 
-                var instance = new UrlChecker(helpers.options(), {
+                const instance = new UrlChecker(helpers.options(), {
                     end: function ()
                     {
                         expect(resumed).to.be.true;
@@ -133,7 +133,7 @@ describe("PUBLIC -- UrlChecker", function ()
         {
             it("accepts a valid id", function (done)
             {
-                var instance = new UrlChecker(helpers.options(), {
+                const instance = new UrlChecker(helpers.options(), {
                     end: function ()
                     {
                         expect(instance.numQueuedLinks()).to.equal(0);
@@ -144,7 +144,7 @@ describe("PUBLIC -- UrlChecker", function ()
                 // Prevent first queued item from immediately starting (and thus being auto-dequeued)
                 instance.pause();
 
-                var id = instance.enqueue(conn.absoluteUrl);
+                const id = instance.enqueue(conn.absoluteUrl);
 
                 expect(id).to.not.be.an.instanceOf(Error);
                 expect(instance.numQueuedLinks()).to.equal(1);
@@ -158,12 +158,12 @@ describe("PUBLIC -- UrlChecker", function ()
 
             it("rejects an invalid id", function ()
             {
-                var instance = new UrlChecker(helpers.options());
+                const instance = new UrlChecker(helpers.options());
 
                 // Prevent first queued item from immediately starting (and thus being auto-dequeued)
                 instance.pause();
 
-                var id = instance.enqueue(conn.absoluteUrl);
+                const id = instance.enqueue(conn.absoluteUrl);
 
                 expect(instance.dequeue(id + 1)).to.be.an.instanceOf(Error);
                 expect(instance.numQueuedLinks()).to.equal(1);
@@ -176,11 +176,11 @@ describe("PUBLIC -- UrlChecker", function ()
     {
         it("requests a unique url only once", function (done)
         {
-            var options = helpers.options({cacheResponses: true});
-            var results = [];
-            var success = false;
+            const options = helpers.options({cacheResponses: true});
+            const results = [];
+            let success   = false;
 
-            var instance = new UrlChecker(options, {
+            const instance = new UrlChecker(options, {
                 link: function (result, customData)
                 {
                     if (result.http.response._cached === true)
@@ -206,11 +206,11 @@ describe("PUBLIC -- UrlChecker", function ()
 
         it("re-requests a non-unique url after clearing cache", function (done)
         {
-            var finalFired = false;
-            var options    = helpers.options({cacheResponses: true});
-            var results    = [];
+            let finalFired = false;
+            const options  = helpers.options({cacheResponses: true});
+            const results  = [];
 
-            var instance = new UrlChecker(options, {
+            const instance = new UrlChecker(options, {
                 link: function (result, customData)
                 {
                     if (result.http.response._cached === true)
@@ -243,11 +243,11 @@ describe("PUBLIC -- UrlChecker", function ()
 
         it("re-requests a non-unique url after expiring in cache", function (done)
         {
-            var finalFired = false;
-            var options    = helpers.options({cacheExpiryTime: 50, cacheResponses: true});
-            var results    = [];
+            let finalFired = false;
+            const options  = helpers.options({cacheExpiryTime: 50, cacheResponses: true});
+            const results  = [];
 
-            var instance = new UrlChecker(options, {
+            const instance = new UrlChecker(options, {
                 link: function (result, customData)
                 {
                     if (result.http.response._cached === true)
@@ -315,9 +315,9 @@ describe("PUBLIC -- UrlChecker", function ()
 
         it("supports multiple queue items", function (done)
         {
-            var results = [];
+            const results = [];
 
-            var instance = new UrlChecker(helpers.options(), {
+            const instance = new UrlChecker(helpers.options(), {
                 link: function (result, customData)
                 {
                     results[customData.index] = result;

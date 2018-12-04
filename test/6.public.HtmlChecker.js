@@ -1,11 +1,11 @@
 "use strict";
-var HtmlChecker = require("../lib/public/HtmlChecker");
+const HtmlChecker = require("../lib/public/HtmlChecker");
 
-var helpers = require("./helpers");
+const helpers = require("./helpers");
 
-var expect = require("chai").expect;
+const expect = require("chai").expect;
 
-var allTagsString, baseUrl, commonHtmlString, conn;
+let allTagsString, baseUrl, commonHtmlString, conn;
 
 function commonHtmlStream()
 {
@@ -39,7 +39,7 @@ describe("PUBLIC -- HtmlChecker", function ()
         {
             it("takes a string when ready", function ()
             {
-                var scanning = new HtmlChecker(helpers.options()).scan(commonHtmlString, baseUrl);
+                const scanning = new HtmlChecker(helpers.options()).scan(commonHtmlString, baseUrl);
 
                 expect(scanning).to.be.true;
             });
@@ -47,7 +47,7 @@ describe("PUBLIC -- HtmlChecker", function ()
 
             it("takes a stream when ready", function ()
             {
-                var scanning = new HtmlChecker(helpers.options()).scan(commonHtmlStream(), baseUrl);
+                const scanning = new HtmlChecker(helpers.options()).scan(commonHtmlStream(), baseUrl);
 
                 expect(scanning).to.be.true;
             });
@@ -55,11 +55,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
             it("reports if not ready", function ()
             {
-                var instance = new HtmlChecker(helpers.options());
+                const instance = new HtmlChecker(helpers.options());
 
                 instance.scan(commonHtmlString, baseUrl);
 
-                var concurrentScan = instance.scan(commonHtmlString, baseUrl);
+                const concurrentScan = instance.scan(commonHtmlString, baseUrl);
 
                 expect(concurrentScan).to.be.false;
             });
@@ -85,7 +85,7 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("link", function (done)
         {
-            var count = 0;
+            let count = 0;
 
             new HtmlChecker(helpers.options(), {
                 link: function (result)
@@ -124,9 +124,9 @@ describe("PUBLIC -- HtmlChecker", function ()
         {
             it("works", function (done)
             {
-                var checked = false;
+                let checked = false;
 
-                var instance = new HtmlChecker(helpers.options(), {
+                const instance = new HtmlChecker(helpers.options(), {
                     complete: function ()
                     {
                         expect(instance.numActiveLinks()).to.equal(0);
@@ -151,9 +151,9 @@ describe("PUBLIC -- HtmlChecker", function ()
         {
             it("works", function (done)
             {
-                var resumed = false;
+                let resumed = false;
 
-                var instance = new HtmlChecker(helpers.options(), {
+                const instance = new HtmlChecker(helpers.options(), {
                     complete: function ()
                     {
                         expect(resumed).to.be.true;
@@ -180,7 +180,7 @@ describe("PUBLIC -- HtmlChecker", function ()
         {
             it("works", function (done)
             {
-                var instance = new HtmlChecker(helpers.options(), {
+                const instance = new HtmlChecker(helpers.options(), {
                     complete: function ()
                     {
                         expect(instance.numQueuedLinks()).to.equal(0);
@@ -209,7 +209,7 @@ describe("PUBLIC -- HtmlChecker", function ()
     {
         it("supports multiple links", function (done)
         {
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 link: function (result)
@@ -228,7 +228,7 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("supports html with no links", function (done)
         {
-            var count = 0;
+            let count = 0;
 
             new HtmlChecker(helpers.options(), {
                 link: function ()
@@ -248,10 +248,10 @@ describe("PUBLIC -- HtmlChecker", function ()
     {
         it("excludedKeywords = []", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[1] + '">link2</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -274,11 +274,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludedKeywords = […]", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[1] + '">link2</a>';
 
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({excludedKeywords: [conn.absoluteUrls[0]]}), {
                 junk: function (result)
@@ -307,14 +307,14 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludedSchemes = []", function (done)
         {
-            var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
+            let htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
             htmlString += '<a href="geo:0,0">link2</a>';
             htmlString += '<a href="javascript:void(0);">link3</a>';
             htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
             htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
             htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options({excludedSchemes: []}), {
                 junk: function (result)
@@ -337,14 +337,14 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it('excludedSchemes = ["data","geo","javascript","mailto","sms","tel"]', function (done)
         {
-            var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
+            let htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
             htmlString += '<a href="geo:0,0">link2</a>';
             htmlString += '<a href="javascript:void(0);">link3</a>';
             htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
             htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
             htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
 
-            var junkResults = [];
+            const junkResults = [];
 
             // Uses default `excludedSchemes` value to ensure that any change to it will break this test
             new HtmlChecker(helpers.options(), {
@@ -368,10 +368,10 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeExternalLinks = false", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[1] + '">link2</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -396,11 +396,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeExternalLinks = true", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[1] + '">link2</a>';
 
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({excludeExternalLinks: true}), {
                 junk: function (result)
@@ -433,11 +433,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeInternalLinks = false", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="/">link2</a>';
             htmlString += '<a href="#hash">link3</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -460,11 +460,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeInternalLinks = true", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '">link1</a>';
             htmlString += '<a href="/">link2</a>';
             htmlString += '<a href="#hash">link3</a>';
 
-            var junkResults = [];
+            const junkResults = [];
 
             new HtmlChecker(helpers.options({excludeInternalLinks: true}), {
                 junk: function (result)
@@ -487,12 +487,12 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeLinksToSamePage = false", function (done)
         {
-            var htmlString = '<a href="' + baseUrl + '">link1</a>';
+            let htmlString = '<a href="' + baseUrl + '">link1</a>';
             htmlString += '<a href="/">link2</a>';
             htmlString += '<a href="?query">link3</a>';
             htmlString += '<a href="#hash">link4</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -521,13 +521,13 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("excludeLinksToSamePage = true", function (done)
         {
-            var htmlString = '<a href="' + baseUrl + '">link1</a>';
+            let htmlString = '<a href="' + baseUrl + '">link1</a>';
             htmlString += '<a href="/">link2</a>';
             htmlString += '<a href="?query">link3</a>';
             htmlString += '<a href="#hash">link4</a>';
 
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({excludeLinksToSamePage: true}), {
                 junk: function (result)
@@ -580,8 +580,8 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("filterLevel = 0", function (done)
         {
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({filterLevel: 0}), {
                 junk: function (result)
@@ -610,8 +610,8 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("filterLevel = 1", function (done)
         {
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({filterLevel: 1}), {
                 junk: function (result)
@@ -640,8 +640,8 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("filterLevel = 2", function (done)
         {
-            var junkResults = [];
-            var results     = [];
+            const junkResults = [];
+            const results     = [];
 
             new HtmlChecker(helpers.options({filterLevel: 2}), {
                 junk: function (result)
@@ -670,7 +670,7 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("filterLevel = 3", function (done)
         {
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -693,11 +693,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("honorRobotExclusions = false (rel)", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '" rel="nofollow">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '" rel="nofollow">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '" rel="tag nofollow">link2</a>';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '" rel=" TAG  NOFOLLOW ">link3</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -720,11 +720,11 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("honorRobotExclusions = true (rel)", function (done)
         {
-            var htmlString = '<a href="' + conn.absoluteUrls[0] + '" rel="nofollow">link1</a>';
+            let htmlString = '<a href="' + conn.absoluteUrls[0] + '" rel="nofollow">link1</a>';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '" rel="tag nofollow">link2</a>';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '" rel=" TAG  NOFOLLOW ">link3</a>';
 
-            var junkResults = [];
+            const junkResults = [];
 
             new HtmlChecker(helpers.options({honorRobotExclusions: true}), {
                 junk: function (result)
@@ -747,10 +747,10 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("honorRobotExclusions = false (meta)", function (done)
         {
-            var htmlString = '<meta name="robots" content="nofollow">';
+            let htmlString = '<meta name="robots" content="nofollow">';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '">link</a>';
 
-            var results = [];
+            const results = [];
 
             new HtmlChecker(helpers.options(), {
                 junk: function (result)
@@ -773,10 +773,10 @@ describe("PUBLIC -- HtmlChecker", function ()
 
         it("honorRobotExclusions = true (meta)", function (done)
         {
-            var htmlString = '<meta name="robots" content="nofollow">';
+            let htmlString = '<meta name="robots" content="nofollow">';
             htmlString += '<a href="' + conn.absoluteUrls[0] + '">link</a>';
 
-            var junkResults = [];
+            const junkResults = [];
 
             new HtmlChecker(helpers.options({honorRobotExclusions: true}), {
                 junk: function (result)
