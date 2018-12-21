@@ -15,7 +15,7 @@ Features:
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `>= 11.3.0` is required.
+[Node.js](http://nodejs.org/) `>= 10.12.0` is required.
 
 There're two ways to use it:
 

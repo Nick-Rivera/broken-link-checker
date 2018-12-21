@@ -1,8 +1,8 @@
 "use strict";
-const appDefaultOptions = require("../../lib/internal/defaultOptions");
-const parseOptions      = require("../../lib/internal/parseOptions");
+var appDefaultOptions = require("../../lib/internal/defaultOptions");
+var parseOptions      = require("../../lib/internal/parseOptions");
 
-const testDefaultOptions = {
+var testDefaultOptions = {
     // All other options will use default values
     // as this will ensure that when they change, tests WILL break
     cacheResponses: false,

@@ -1,12 +1,12 @@
 "use strict";
-const slashes = require("slashes");
+var slashes = require("slashes");
 
-const varStringPattern = /{{([^}]+)}}/;
+var varStringPattern = /{{([^}]+)}}/;
 
 
 function a_an(followingWord)
 {
-    const firstChar = followingWord[0].toLowerCase();
+    var firstChar = followingWord[0].toLowerCase();
 
     // Skip "y" because it's always special cased
     if (firstChar === "a" || firstChar === "e" || firstChar === "i" || firstChar === "o" || firstChar === "u")
@@ -28,7 +28,7 @@ function format(input)
 {
     if (typeof input === "string")
     {
-        const match = varStringPattern.exec(input);
+        var match = varStringPattern.exec(input);
 
         // If {{text}}, which is intended to be outputted literally
         if (match !== null)

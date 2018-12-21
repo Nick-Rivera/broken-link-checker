@@ -1,8 +1,8 @@
 "use strict";
-const fs   = require("fs");
-const path = require("path");
+var fs   = require("fs");
+var path = require("path");
 
-const htmls = {
+var htmls = {
     "<a href>": '<a href="fake.html">link</a>',
     "<area href/>": '<area href="fake.html"/>',
     "<audio src>": '<audio src="fake.ogg"></audio>',
@@ -38,10 +38,10 @@ function generate()
 
 function generateData()
 {
-    let base, htmlBase, url;
+    var base, htmlBase, url;
 
-    let i;
-    const output = {};
+    var i;
+    var output = {};
 
     for (i in htmls)
     {

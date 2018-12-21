@@ -1,14 +1,14 @@
 "use strict";
-const messages   = require("../lib/internal/messages");
-const streamHtml = require("../lib/internal/streamHtml");
+var messages   = require("../lib/internal/messages");
+var streamHtml = require("../lib/internal/streamHtml");
 
-const helpers = require("./helpers");
+var helpers = require("./helpers");
 
-const expect   = require("chai").expect;
-const isStream = require("is-stream");
-const UrlCache = require("urlcache");
+var expect   = require("chai").expect;
+var isStream = require("is-stream");
+var UrlCache = require("urlcache");
 
-let conn;
+var conn;
 
 
 describe("INTERNAL -- streamHtml", function ()
@@ -52,7 +52,7 @@ describe("INTERNAL -- streamHtml", function ()
 
     it("rejects a non-html url (gif)", function ()
     {
-        let accepted = false;
+        var accepted = false;
 
         return streamHtml(conn.absoluteUrl + "/non-html/image.gif", null, helpers.options())
             .then(function (result)
@@ -76,7 +76,7 @@ describe("INTERNAL -- streamHtml", function ()
 
     it("rejects a non-html url (unknown)", function ()
     {
-        let accepted = false;
+        var accepted = false;
 
         return streamHtml(conn.absoluteUrl + "/non-html/empty", null, helpers.options())
             .then(function (result)
@@ -100,7 +100,7 @@ describe("INTERNAL -- streamHtml", function ()
 
     it("rejects a 404", function ()
     {
-        let accepted = false;
+        var accepted = false;
 
         return streamHtml(conn.absoluteUrl + "/normal/fake.html", null, helpers.options())
             .then(function (result)
@@ -124,7 +124,7 @@ describe("INTERNAL -- streamHtml", function ()
 
     it("rejects an erroneous url", function ()
     {
-        let accepted = false;
+        var accepted = false;
 
         return streamHtml("/normal/fake.html", null, helpers.options())
             .then(function (result)
@@ -153,7 +153,7 @@ describe("INTERNAL -- streamHtml", function ()
     {
         it("stores the response", function ()
         {
-            const cache = new UrlCache();
+            var cache = new UrlCache();
 
             return streamHtml(conn.absoluteUrl + "/normal/no-links.html", cache, helpers.options({cacheResponses: true}))
                 .then(function (result)
@@ -169,7 +169,7 @@ describe("INTERNAL -- streamHtml", function ()
 
         it("stores the response of a redirected url", function ()
         {
-            const cache = new UrlCache();
+            var cache = new UrlCache();
 
             return streamHtml(conn.absoluteUrl + "/redirect/redirect.html", cache, helpers.options({cacheResponses: true}))
                 .then(function (result)
@@ -191,7 +191,7 @@ describe("INTERNAL -- streamHtml", function ()
 
         it("stores the response of a non-html url", function ()
         {
-            const cache = new UrlCache();
+            var cache = new UrlCache();
 
             return streamHtml(conn.absoluteUrl + "/non-html/image.gif", cache, helpers.options({cacheResponses: true}))
                 .catch(function (error)
@@ -212,7 +212,7 @@ describe("INTERNAL -- streamHtml", function ()
 
         it("stores the response of a 404", function ()
         {
-            const cache = new UrlCache();
+            var cache = new UrlCache();
 
             return streamHtml(conn.absoluteUrl + "/normal/fake.html", cache, helpers.options({cacheResponses: true}))
                 .catch(function (error)
@@ -233,7 +233,7 @@ describe("INTERNAL -- streamHtml", function ()
 
         it("stores the error from an erroneous url", function ()
         {
-            const cache = new UrlCache();
+            var cache = new UrlCache();
 
             return streamHtml("/normal/fake.html", cache, helpers.options({cacheResponses: true}))
                 .catch(function (error)
@@ -247,8 +247,7 @@ describe("INTERNAL -- streamHtml", function ()
                 .then(function (response)
                 {
                     expect(response).to.be.an.instanceOf(Error);
-                    //expect(response.message).to.equal("Invalid URL");
-                    // TODO :: https://github.com/joepie91/node-bhttp/issues/4
+                    //expect(response.message).to.equal("Invalid URL");  // TODO :: https://github.com/joepie91/node-bhttp/issues/4
                 });
         });
     });

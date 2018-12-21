@@ -1,10 +1,10 @@
 "use strict";
-const fs   = require("fs");
-const path = require("path");
+var fs   = require("fs");
+var path = require("path");
 
-const helpers = require("../");
+var helpers = require("../");
 
-const urls = {
+var urls = {
     "remote absolute": "https://fakeurl2.com/path/link.html?query#hash",  // TODO :: reflect specurl tests
     "local absolute": "http://fakeurl.com/path/link.html?query#hash",    // TODO :: reflect specurl tests
     // TODO :: add remote+local scheme-relative urls
@@ -26,8 +26,8 @@ function generate()
 
 function generateData()
 {
-    let base, htmlBase, url;
-    const output = {};
+    var base, htmlBase, url;
+    var output = {};
 
     for (url in urls)
     {
