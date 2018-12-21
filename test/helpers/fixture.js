@@ -16,7 +16,7 @@ function fixturePath(path)
 
 function fixtureStream(path)
 {
-    return fs.createReadStream(fixturePath(path), {encoding: "utf8"});
+    return fs.createReadStream(fixturePath(path));
 }
 
 

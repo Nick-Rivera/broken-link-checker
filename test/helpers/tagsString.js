@@ -1,12 +1,12 @@
 "use strict";
-const tags = require("../../lib/internal/tags");
+var tags = require("../../lib/internal/tags");
 
 
 function tagsString(filterLevel, url)
 {
-    let attrName, tag, tagName;
-    const filteredTags = tags[filterLevel];
-    let html           = "";
+    var attrName, html, tag, tagName;
+    var filteredTags = tags[filterLevel];
+    var html         = "";
 
     for (tagName in filteredTags)
     {

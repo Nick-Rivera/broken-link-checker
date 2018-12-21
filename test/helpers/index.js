@@ -1,8 +1,8 @@
 "use strict";
-const server        = require("./server");
-const testGenerator = require("./testGenerator");
+var server        = require("./server");
+var testGenerator = require("./testGenerator");
 
-const chai               = require("chai");
+var chai                 = require("chai");
 chai.config.includeStack = true;
 chai.use(require("chai-as-promised"));
 chai.use(require("chai-like"));
